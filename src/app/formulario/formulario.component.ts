@@ -35,8 +35,8 @@ export class FormularioComponent implements OnInit {
       quantidade: '',
       preco: '',
       perecivel: false,
-      validade: '',
-      fabricacao: ''
+      validade: null,
+      fabricacao: null
     };
 
     this.edit = localStorage.getItem('toEdit');
@@ -50,20 +50,14 @@ export class FormularioComponent implements OnInit {
       this.defaultFields.perecivel = this.defaultFields.perecivel == 'Perecível';
       this.perecivel = this.defaultFields.perecivel;
       //Converte unidade
-      switch (this.defaultFields.unidade) {
-        case 'Litro':
-          this.defaultFields.unidade = 'lt';
-          break 
-        case 'Quilograma': 
-          this.defaultFields.unidade = 'kg';
-          break 
-        case 'Unidade':
-          this.defaultFields.unidade = 'un';
-          break
-      }
+      if (this.defaultFields.unidade == 'un') {          
+        this.mask = '999';
+      } else {
+        this.mask = '999,999';
+      }      
+    } else {
+      this.mask = '999,999';
     }
-
-    this.mask = '999,999';
   }
 
   ngOnInit() {
@@ -78,6 +72,8 @@ export class FormularioComponent implements OnInit {
       fabricacao:  [this.defaultFields.fabricacao, [Validators.required]]
     })
 
+    let addonUnidade = document.getElementById('addon-unidade');
+    addonUnidade.innerHTML = this.defaultFields.unidade;
   }
   
   //Alteração de mascara
@@ -85,6 +81,7 @@ export class FormularioComponent implements OnInit {
     let addonUnidade = document.getElementById('addon-unidade');
     addonUnidade.innerHTML = event.value;
     if (event.value == 'un') {
+      console.log('oi');
       this.mask = '9999';
     } else {
       this.mask = '999,999';
