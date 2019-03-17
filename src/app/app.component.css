@@ -1,0 +1,10 @@
+body {
+    margin: 0 !important;
+}
+body .ui-menu {
+    padding: 0;
+    height: 100vh;
+    margin: 0;
+    background: #00c89b;
+    border: 0;
+}

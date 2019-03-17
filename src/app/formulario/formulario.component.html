@@ -1,0 +1,47 @@
+<p-card>
+  <p-header>
+    <div class="p-15">
+      <h1>Cadastro de Item</h1>
+    </div>
+  </p-header>
+  
+  <form class="form-principal" [formGroup]="form">
+    <h3 class="first">Nome do item</h3>
+    <input formControlName="nome" id="input" type="text" maxlength="50" [ngClass]="{ 'ng-dirty ng-invalid': submitted && hasError('nome') }" pInputText>
+    <div *ngIf="submitted && hasError('nome') && hasError('nome')['required']">Por favor informe um nome para o item</div>
+    <div *ngIf="submitted && hasError('nome') && hasError('nome')['pattern']">O nome do item deve conter apenas letras</div>
+
+    <h3 class="first">Unidade de medida</h3>
+    <p-selectButton formControlName="unidade" [options]="enumeracao" (onChange)="campoUnidade($event)"></p-selectButton>
+
+    <h3 class="first">Quantidade</h3>
+    <div class="ui-inputgroup">
+      <p-inputMask formControlName="quantidade" mask="{{mask}}"></p-inputMask>
+      <span class="ui-inputgroup-addon" id="addon-unidade">lt</span>
+    </div>
+
+    <h3 class="first">Preço</h3>
+    <div class="ui-inputgroup">
+      <span class="ui-inputgroup-addon" id="addon-preco">R$</span>
+      <p-inputMask formControlName="preco" mask="9999,99" [ngClass]="{ 'ng-dirty ng-invalid': submitted && hasError('preco') }"></p-inputMask>
+    </div>
+    <div *ngIf="submitted && hasError('preco') && hasError('preco')['required']">Por favor informe um preço para o item</div>
+
+    <h3 class="first">Perecível</h3>
+    <p-inputSwitch formControlName="perecivel" id="perecivel" (onChange)="onChangePerecivel($event)"></p-inputSwitch>
+
+    <h3 class="first">Data de validade</h3>
+    <p-calendar formControlName="validade" dateFormat="dd/mm/yy" (onSelect)="campoDataValidade($event)" id="campo-validade" [ngClass]="{ 'ng-dirty ng-invalid': submitted && !campoDataValidade() }"></p-calendar>
+    <div id="vencido"></div>
+    <div *ngIf="submitted && !campoDataValidade()">Por favor informe uma data de validade</div>
+
+    <h3 class="first">Data de fabricação</h3>
+    <p-calendar formControlName="fabricacao" dateFormat="dd/mm/yy" (onSelect)="campoDataFabricacao($event)"  [ngClass]="{ 'ng-dirty ng-invalid': submitted && (hasError('fabricacao') || !campoDataFabricacao())}"></p-calendar>
+    <div *ngIf="submitted && hasError('fabricacao') && hasError('fabricacao')['required']">Por favor informe uma data de fabricação</div>
+    <div *ngIf="submitted && !campoDataFabricacao()">Data de fabricação não pode ser maior que a data de validade</div>
+    <div class="mt-15">
+      <p-button label="Salvar" type="submit" styleClass="ui-button-success" (click)="onSubmit($event)"></p-button>
+      <p-button label="Cancelar" styleClass="ui-button-danger" (click)="onCancel($event)"></p-button>
+    </div>
+  </form>
+</p-card>
