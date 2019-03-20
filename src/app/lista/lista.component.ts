@@ -19,6 +19,9 @@ export class ListaComponent implements OnInit {
 
   ngOnInit() {
     this.itens = JSON.parse(localStorage.getItem('itens'));
+    if (!this.itens) {
+      this.itens = [];
+    }
     let i;
     for (i in this.itens) {
       let dataValidade = new Date(this.itens[i].validade),
