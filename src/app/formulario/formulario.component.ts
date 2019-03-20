@@ -115,7 +115,7 @@ export class FormularioComponent implements OnInit {
     let validade = this.form.value.validade,
         fabricacao = this.form.value.fabricacao;
 
-    if (validade < fabricacao) {
+    if (this.perecivel && validade < fabricacao) {
       return false;
     } else {
       return true;
